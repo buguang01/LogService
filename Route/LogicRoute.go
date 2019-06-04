@@ -4,7 +4,7 @@ import (
 	"LogService/Service"
 
 	"github.com/buguang01/gsframe/event"
-	"github.com/buguang01/gsframe/util"
+	"github.com/buguang01/util"
 )
 
 type LogicRoute struct {
