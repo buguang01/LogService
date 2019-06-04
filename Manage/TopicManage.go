@@ -1,11 +1,12 @@
 package Manage
 
 import (
-	"github.com/buguang01/LogService/Dal"
-	"github.com/buguang01/LogService/Service"
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/buguang01/LogService/Dal"
+	"github.com/buguang01/LogService/Service"
 
 	"github.com/buguang01/util"
 
@@ -67,6 +68,7 @@ func (this *TopicManage) GetTopicID(name string) int {
 		this.topicID++
 		topid := this.topicID
 		this.topiclist[name] = topid
+		result = topid
 		this.maplock.Unlock()
 		//要写入数据库
 		err := Dal.UpTopicInfo(&Dal.TopicInfoMD{UID: topid, Name: name})
