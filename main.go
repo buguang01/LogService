@@ -1,15 +1,16 @@
 package main
 
 import (
-	"LogService/Flag"
-	"LogService/Manage"
-	"LogService/Route"
-	"LogService/Service"
 	"encoding/json"
 	"flag"
 	"io/ioutil"
 	"os"
 	"sync"
+
+	"github.com/buguang01/LogService/Flag"
+	"github.com/buguang01/LogService/Manage"
+	"github.com/buguang01/LogService/Route"
+	"github.com/buguang01/LogService/Service"
 
 	"github.com/buguang01/Logger"
 	"github.com/buguang01/gsframe/model"

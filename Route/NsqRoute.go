@@ -1,9 +1,9 @@
 package Route
 
 import (
-	"LogService/ActionCode"
-	"LogService/Events"
-	"LogService/Service"
+	"github.com/buguang01/LogService/ActionCode"
+	"github.com/buguang01/LogService/Events"
+	"github.com/buguang01/LogService/Service"
 
 	"github.com/buguang01/Logger"
 	"github.com/buguang01/gsframe/event"

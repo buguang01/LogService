@@ -1,8 +1,8 @@
 package Events
 
 import (
-	"LogService/Dal"
-	"LogService/Manage"
+	"github.com/buguang01/LogService/Dal"
+	"github.com/buguang01/LogService/Manage"
 	"time"
 
 	"github.com/buguang01/util"

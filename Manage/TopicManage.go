@@ -1,8 +1,8 @@
 package Manage
 
 import (
-	"LogService/Dal"
-	"LogService/Service"
+	"github.com/buguang01/LogService/Dal"
+	"github.com/buguang01/LogService/Service"
 	"fmt"
 	"sync"
 	"time"

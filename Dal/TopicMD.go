@@ -1,7 +1,7 @@
 package Dal
 
 import (
-	"LogService/Service"
+	"github.com/buguang01/LogService/Service"
 	"database/sql"
 )
 

@@ -1,7 +1,7 @@
 package Route
 
 import (
-	"LogService/Service"
+	"github.com/buguang01/LogService/Service"
 
 	"github.com/buguang01/gsframe/event"
 	"github.com/buguang01/util"
