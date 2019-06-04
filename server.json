@@ -1,0 +1,29 @@
+{
+    "GameConf":{
+        "ServiceID":2,
+        "PStatusTime":10
+    },
+    "NsqdConf":{
+        "Addr":"127.0.0.1:4150",
+        "NSQLookupdAddr":"127.0.0.1:4161",
+        "ChanNum":102400,
+        "LookupdPollInterval":1000,
+        "MaxInFlight":1000
+    },
+    "LogicConf":{
+        "Timeout":120,
+        "InitNum":100,
+        "ChanNum":128,
+        "SubChanNum":64
+    },
+    
+    "DBConf":{
+        "Dsn":"root:123456@tcp(127.0.0.1:3306)/gamelog_db?charset=utf8mb4&parseTime=true",
+        "MaxOpenNum":100,
+        "MaxIdleNum":50,
+        "MaxLifetime":600
+    },
+    "LogLv":0,
+    "LogPath":"logs",    
+    "LogicThreadNum":100
+}
