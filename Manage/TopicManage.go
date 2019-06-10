@@ -8,9 +8,8 @@ import (
 	"github.com/buguang01/LogService/Dal"
 	"github.com/buguang01/LogService/Service"
 
-	"github.com/buguang01/util"
-
 	"github.com/buguang01/Logger"
+	"github.com/buguang01/util"
 )
 
 type TopicManage struct {
@@ -41,6 +40,7 @@ func (this *TopicManage) Load(wg *sync.WaitGroup) {
 		if err != nil {
 			panic(err)
 		}
+
 		this.topiclist[name] = id
 	}
 	this.topicID = Dal.GetTopicMax()
