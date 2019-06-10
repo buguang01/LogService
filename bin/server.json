@@ -4,8 +4,8 @@
         "PStatusTime":10
     },
     "NsqdConf":{
-        "Addr":"192.168.39.97:4150",
-        "NSQLookupdAddr":"192.168.39.97:4161",
+        "Addr":"127.0.0.1:4150",
+        "NSQLookupdAddr":"127.0.0.1:4161",
         "ChanNum":102400,
         "LookupdPollInterval":1000,
         "MaxInFlight":1000
@@ -18,7 +18,7 @@
     },
     
     "DBConf":{
-        "Dsn":"root:6JkZsIybo25ls81a@tcp(192.168.39.97:3306)/gamelog_db?charset=utf8mb4&parseTime=true",
+        "Dsn":"root:123456@tcp(127.0.0.1:3306)/gamelog_db?charset=utf8mb4&parseTime=true",
         "MaxOpenNum":100,
         "MaxIdleNum":50,
         "MaxLifetime":600
