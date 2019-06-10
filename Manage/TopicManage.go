@@ -115,6 +115,7 @@ type LogDbModel struct {
 	//一年一库
 }
 
+//CreateDB 建创，怎么分表和分库，你可以按自己的想法改还要去Dal.LogInfoMD里改生成库名和表名的规则
 func (this *LogDbModel) CreateDB() {
 	sqlstr := `
 	CREATE DATABASE IF NOT EXISTS gamelog_db_%d  DEFAULT CHARACTER SET utf8mb4 ;	
