@@ -4,8 +4,8 @@
         "PStatusTime":10
     },
     "NsqdConf":{
-        "Addr":"127.0.0.1:4150",
-        "NSQLookupdAddr":"127.0.0.1:4161",
+        "Addr":["127.0.0.1:4150"],
+        "NSQLookupdAddr":["127.0.0.1:4161"],
         "ChanNum":102400,
         "LookupdPollInterval":1000,
         "MaxInFlight":1000
@@ -13,8 +13,8 @@
     "LogicConf":{
         "Timeout":120,
         "InitNum":100,
-        "ChanNum":128,
-        "SubChanNum":64
+        "ChanNum":1280,
+        "SubChanNum":640
     },
     
     "DBConf":{
@@ -25,5 +25,5 @@
     },
     "LogLv":0,
     "LogPath":"logs",    
-    "LogicThreadNum":100
+    "LogMode":0
 }

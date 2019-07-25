@@ -1,21 +1,20 @@
 package main
 
 import (
-	"encoding/json"
+	"LogService/Flag"
+	"LogService/Manage"
+	"LogService/Route"
+	"LogService/Service"
 	"flag"
 	"io/ioutil"
 	"os"
 	"sync"
 
-	"github.com/buguang01/LogService/Flag"
-	"github.com/buguang01/LogService/Manage"
-	"github.com/buguang01/LogService/Route"
-	"github.com/buguang01/LogService/Service"
-
 	"github.com/buguang01/Logger"
-	"github.com/buguang01/gsframe/model"
-	"github.com/buguang01/gsframe/module"
-	"github.com/buguang01/gsframe/runserver"
+	"github.com/buguang01/bige/json"
+	"github.com/buguang01/bige/model"
+	"github.com/buguang01/bige/module"
+	"github.com/buguang01/bige/runserver"
 	_ "github.com/icattlecoder/godaemon"
 )
 
@@ -32,7 +31,7 @@ func main() {
 	b, _ := ioutil.ReadAll(f)
 	f.Close()
 	json.Unmarshal(b, &conf)
-	Logger.Init(conf.LogLv, conf.LogPath)
+	Logger.Init(conf.LogLv, conf.LogPath, conf.LogMode)
 	defer Logger.LogClose()
 
 	//启动服务

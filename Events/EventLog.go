@@ -1,20 +1,19 @@
 package Events
 
 import (
-	"github.com/buguang01/LogService/Dal"
-	"github.com/buguang01/LogService/Manage"
+	"LogService/Dal"
+	"LogService/Manage"
 	"time"
 
+	"github.com/buguang01/bige/event"
 	"github.com/buguang01/util"
-
-	"github.com/buguang01/gsframe/event"
 )
 
 //日志逻辑
 //EventLog
-func EventLog(msg *event.NsqdMessage) {
+func EventLog(msg event.INsqdMessage) {
 	//收到的日志
-	et := event.JsonMap(msg.Data.(map[string]interface{}))
+	et := event.JsonMap(msg.GetData().(map[string]interface{}))
 	logmd := new(Dal.LogInfoMD)
 	logmd.ServiceID = util.NewStringAny(et["SID"]).ToIntV()
 	logmd.MemberID = util.NewStringAny(et["MID"]).ToIntV()

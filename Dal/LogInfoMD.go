@@ -25,7 +25,7 @@ func (this *LogInfoMD) GetDB() string {
 }
 
 func (this *LogInfoMD) GetTableName() string {
-	return fmt.Sprintf("loginfo_%02d_%02d", this.UpTime.Month(), (this.UpTime.Day()-1)/3+1)
+	return fmt.Sprintf("loginfo_%d_%02d_%02d", this.ServiceID, this.UpTime.Month(), this.UpTime.Day())
 }
 
 func InsertTopic(conndb *sql.DB, md *LogInfoMD) error {

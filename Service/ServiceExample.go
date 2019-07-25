@@ -1,9 +1,9 @@
 package Service
 
 import (
-	"github.com/buguang01/gsframe/model"
-	"github.com/buguang01/gsframe/module"
-	"github.com/buguang01/gsframe/runserver"
+	"github.com/buguang01/bige/model"
+	"github.com/buguang01/bige/module"
+	"github.com/buguang01/bige/runserver"
 )
 
 var (

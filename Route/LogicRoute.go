@@ -1,24 +1,24 @@
 package Route
 
 import (
-	"github.com/buguang01/LogService/Service"
+	"LogService/Service"
 
-	"github.com/buguang01/gsframe/event"
+	"github.com/buguang01/bige/event"
 	"github.com/buguang01/util"
 )
 
 type LogicRoute struct {
-	Msg *event.NsqdMessage
+	Msg event.INsqdMessage
 	event.NsqdHander
 }
 
 //所在协程的KEY
 func (this *LogicRoute) KeyID() string {
-	sid := util.NewStringAny(this.Msg.SendSID).ToIntV()
-	if Service.Sconf.LogicThreadNum == 0 {
-		return this.Msg.SendSID
+	sid := util.NewStringAny(this.Msg.GetSendSID()).ToIntV()
+	if Service.Sconf.LogicConf.InitNum == 0 {
+		return this.Msg.GetSendSID()
 	}
-	return util.NewStringInt(sid % Service.Sconf.LogicThreadNum).ToString()
+	return util.NewStringInt(sid % Service.Sconf.LogicConf.InitNum).ToString()
 }
 
 //调用方法
@@ -26,7 +26,7 @@ func (this *LogicRoute) Run() {
 	this.NsqdHander(this.Msg)
 }
 
-func NewLogicRoute(hander event.NsqdHander, msg *event.NsqdMessage) *LogicRoute {
+func NewLogicRoute(hander event.NsqdHander, msg event.INsqdMessage) *LogicRoute {
 	result := new(LogicRoute)
 	result.Msg = msg
 	result.NsqdHander = hander

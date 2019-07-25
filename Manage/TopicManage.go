@@ -1,12 +1,11 @@
 package Manage
 
 import (
+	"LogService/Dal"
+	"LogService/Service"
 	"fmt"
 	"sync"
 	"time"
-
-	"github.com/buguang01/LogService/Dal"
-	"github.com/buguang01/LogService/Service"
 
 	"github.com/buguang01/Logger"
 	"github.com/buguang01/util"
@@ -40,7 +39,6 @@ func (this *TopicManage) Load(wg *sync.WaitGroup) {
 		if err != nil {
 			panic(err)
 		}
-
 		this.topiclist[name] = id
 	}
 	this.topicID = Dal.GetTopicMax()
@@ -98,6 +96,9 @@ func (this *TopicManage) SendDB(logmd *Dal.LogInfoMD) {
 			result.CreateDB()
 		})
 	}
+
+	result.CreateTable(logmd)
+
 	err := Dal.InsertTopic(Service.MysqlExample.DBConobj, logmd)
 	if err != nil {
 		panic(err)
@@ -115,15 +116,40 @@ type LogDbModel struct {
 	//一年一库
 }
 
-//CreateDB 建创，怎么分表和分库，你可以按自己的想法改还要去Dal.LogInfoMD里改生成库名和表名的规则
 func (this *LogDbModel) CreateDB() {
 	sqlstr := `
 	CREATE DATABASE IF NOT EXISTS gamelog_db_%d  DEFAULT CHARACTER SET utf8mb4 ;	
 	`
 	conndb := Service.MysqlExample.DBConobj
 	conndb.Exec(fmt.Sprintf(sqlstr, this.CreateTime.Year()))
+	// tabstr := `
+	// CREATE TABLE IF NOT EXISTS  gamelog_db_%d.loginfo_%02d_%02d (
+	// 	uid bigint(20) NOT NULL AUTO_INCREMENT,
+	// 	topicid1 int(11) NOT NULL,
+	// 	topicid2 int(11) NOT NULL,
+	// 	topicid3 int(11) NOT NULL,
+	// 	memberid int(11) NOT NULL,
+	// 	serviceid int(11) NOT NULL,
+	// 	uptime datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+	// 	upnum bigint(20) NOT NULL,
+	// 	total bigint(20) NOT NULL,
+	// 	datas varchar(4000) NOT NULL,
+	// 	PRIMARY KEY (uid),
+	// 	KEY topicid1 (memberid,topicid1,topicid2,topicid3),
+	// 	KEY uptime (uptime)
+	//   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	// `
+	// for i := 1; i <= 12; i++ {
+	// 	for r := 1; r <= 11; r++ {
+	// 		conndb.Exec(fmt.Sprintf(tabstr, this.CreateTime.Year(), i, r))
+	// 	}
+	// }
+}
+
+func (this *LogDbModel) CreateTable(logmd *Dal.LogInfoMD) {
+	conndb := Service.MysqlExample.DBConobj
 	tabstr := `
-	CREATE TABLE IF NOT EXISTS  gamelog_db_%d.loginfo_%02d_%02d (
+	CREATE TABLE IF NOT EXISTS  %s.%s (
 		uid bigint(20) NOT NULL AUTO_INCREMENT,
 		topicid1 int(11) NOT NULL,
 		topicid2 int(11) NOT NULL,
@@ -135,13 +161,11 @@ func (this *LogDbModel) CreateDB() {
 		total bigint(20) NOT NULL,
 		datas varchar(4000) NOT NULL,
 		PRIMARY KEY (uid),
-		KEY topicid1 (memberid,topicid1,topicid2,topicid3),
+		KEY memberid (memberid),
+		KEY topicid1 (topicid1,topicid2,topicid3),
 		KEY uptime (uptime)
 	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 	`
-	for i := 1; i <= 12; i++ {
-		for r := 1; r <= 11; r++ {
-			conndb.Exec(fmt.Sprintf(tabstr, this.CreateTime.Year(), i, r))
-		}
-	}
+	conndb.Exec(fmt.Sprintf(tabstr, logmd.GetDB(), logmd.GetTableName()))
+
 }
