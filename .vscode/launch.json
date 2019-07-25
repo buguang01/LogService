@@ -5,14 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "main",
+            "type": "go",
+            "request": "launch",
+            "mode":"auto",
+            "program": "${workspaceFolder}"
+        },
+        {
             "name": "games",
             "type": "go",
             "request": "launch",
             "mode": "exec",
-            "program": "${workspaceRoot}/bin/LogService.exe",
+            "program": "${workspaceRoot}/bin/LogService",
             "env": {},
             "args": [
-                "-d=false",
                 "-c=server.json"
             ]
         }

@@ -12,10 +12,7 @@
                 "-o",
                 "${workspaceRoot}/bin/LogService.exe"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            
         },
         {
             "label": "go build linux",
@@ -32,6 +29,10 @@
                     "GOARCH": "amd64"
                 }
             },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
