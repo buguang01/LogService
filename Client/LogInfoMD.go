@@ -1,8 +1,11 @@
 package Client
 
 import (
+	"LogService/Service"
 	"encoding/json"
 	"time"
+
+	"github.com/buguang01/bige/messages"
 )
 
 //日志本身
@@ -18,10 +21,6 @@ type LogInfoMD struct {
 	Total  int64     //更新后总数量
 	Datas  string    //其他数据
 }
-
-var (
-	sid int
-)
 
 func NewLogInfo(topid1, topid2, topid3 string, mid, sid int, dt time.Time, upnum, total int64, datas string) *LogInfoMD {
 	result := new(LogInfoMD)
@@ -51,4 +50,28 @@ func NewLogInfoByIface(topid1, topid2, topid3 string, mid, sid int, dt time.Time
 
 func NewLoginfoByTime(topid1, topid2, topid3 string, mid, sid int, dt time.Time) *LogInfoMD {
 	return NewLogInfo(topid1, topid2, topid3, mid, sid, dt, 0, 0, "")
+}
+
+type NsqSendLogEventMsg struct {
+	messages.NsqdMessage
+	LogInfoMD
+}
+
+func (msg *NsqSendLogEventMsg) GetAction() uint32 {
+	return msg.ActionID
+}
+
+//发到LogService的日志消息
+func NLog_Example(md *LogInfoMD, actid uint32, sid string, mid int) {
+	msg := &NsqSendLogEventMsg{
+		LogInfoMD: *md,
+	}
+	msg.ActionID = actid
+	msg.SendUserID = mid
+	msg.Topic = sid
+	Service.NsqdExample.AddMsg(msg)
+}
+
+func sendNsqdLogMD(msg *NsqSendLogEventMsg) {
+	Service.NsqdExample.AddMsg(msg)
 }

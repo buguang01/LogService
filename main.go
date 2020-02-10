@@ -5,16 +5,17 @@ import (
 	"LogService/Manage"
 	"LogService/Route"
 	"LogService/Service"
+	"encoding/json"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"sync"
 
 	"github.com/buguang01/Logger"
-	"github.com/buguang01/bige/json"
 	"github.com/buguang01/bige/model"
-	"github.com/buguang01/bige/module"
-	"github.com/buguang01/bige/runserver"
+	"github.com/buguang01/bige/modules"
+	"github.com/buguang01/util"
 	_ "github.com/icattlecoder/godaemon"
 )
 
@@ -35,22 +36,28 @@ func main() {
 	defer Logger.LogClose()
 
 	//启动服务
-	Service.GameExample = runserver.NewGameService(&conf.GameConf)
-	Service.GameExample.ServiceStopHander = Service.ServiceStop
+	Service.GameExample = modules.NewGameService(
+		modules.GameServiceSetSID(Service.Sconf.ServiceID),
+		modules.GameServiceSetPTime(Service.Sconf.PStatusTime),
+	)
 	Service.MysqlExample = model.NewMysqlAccess(&conf.DBConf)
 	if err := Service.MysqlExample.Ping(); err != nil {
 		Logger.PFatal(err)
 		return
 	}
 	defer Service.MysqlExample.Close()
-	Service.LogicExample = module.NewLogicModule(&conf.LogicConf)
-	// Service.DBExample = module.NewSqlDataModule(&conf.SqlConf, Service.MysqlExample.GetDB())
-	Service.NsqdExample = module.NewNsqdModule(&conf.NsqdConf, conf.GameConf.ServiceID)
 
-	Service.NsqdExample.RouteFun = Route.NsqRouteHander
-	// Service.GameExample.AddModule(Service.DBExample)
-	Service.GameExample.AddModule(Service.NsqdExample)
-	Service.GameExample.AddModule(Service.LogicExample)
+	Service.LogicExample = modules.NewLogicModule()
+	Service.NsqdExample = modules.NewNsqdModule(
+		modules.NsqdSetPorts(conf.NsqdAddr...),
+		modules.NsqdSetLookup(conf.NsqdLookupdAddr...),
+		modules.NsqdSetMyTopic(util.ToString(Service.GameExample.ServiceID)),
+		modules.NsqdSetMyChannelName(fmt.Sprintf("chancel_%d", Service.GameExample.ServiceID)),
+		modules.NsqdSetRoute(Route.NsqRoute),
+	)
+	Service.GameExample.AddModule(
+		Service.LogicExample,
+		Service.NsqdExample)
 	InitData()
 	Service.GameExample.Run()
 }

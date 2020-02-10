@@ -2,18 +2,12 @@ package Service
 
 import (
 	"github.com/buguang01/bige/model"
-	"github.com/buguang01/bige/module"
-	"github.com/buguang01/bige/runserver"
+	"github.com/buguang01/bige/modules"
 )
 
 var (
-	GameExample  *runserver.GameServiceBase
-	DBExample    *module.SqlDataModule
-	LogicExample *module.LogicModule
+	GameExample  *modules.GameService
+	LogicExample *modules.LogicModule
 	MysqlExample *model.MysqlAccess
-	NsqdExample  *module.NsqdModule
+	NsqdExample  *modules.NsqdModule
 )
-
-func ServiceStop() {
-	NsqdExample.StopConsumer()
-}
