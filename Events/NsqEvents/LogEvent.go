@@ -15,6 +15,6 @@ type LogEvent struct {
 
 func (msg *LogEvent) NsqDirectCall() {
 	//设置Logic层，对应的协程用户ID
-	msg.UserID = msg.SendUserID
+	msg.UserID = msg.MID
 	Service.LogicExample.AddMsg(msg)
 }
