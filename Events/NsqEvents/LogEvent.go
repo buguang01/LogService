@@ -10,11 +10,17 @@ import (
 //日志逻辑
 type LogEvent struct {
 	messages.NsqdMessage
-	Events.LogLogic
+	messages.LogicMessage
+	Data Events.LogLogic
 }
 
 func (msg *LogEvent) NsqDirectCall() {
 	//设置Logic层，对应的协程用户ID
-	msg.UserID = msg.MID
+	msg.UserID = msg.Data.MID
 	Service.LogicExample.AddMsg(msg)
+}
+
+func (msg *LogEvent) MessageHandle() {
+	msg.Data.Log_Send()
+
 }

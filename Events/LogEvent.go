@@ -5,12 +5,11 @@ import (
 	"LogService/Manage"
 	"time"
 
-	"github.com/buguang01/bige/messages"
+	"github.com/buguang01/bige/event"
 )
 
 //日志逻辑
 type LogLogic struct {
-	messages.LogicMessage
 	Topic1 string    `json:"Topic1"` //主题1
 	Topic2 string    `json:"Topic2"` //主题2
 	Topic3 string    `json:"Topic3"` //主题3
@@ -23,7 +22,7 @@ type LogLogic struct {
 }
 
 //调用方法
-func (msg *LogLogic) MessageHandle() {
+func (msg *LogLogic) Log_Send() (js event.JsonMap) {
 	logmd := new(Dal.LogInfoMD)
 	logmd.ServiceID = msg.SID
 	logmd.MemberID = msg.MID
@@ -35,4 +34,5 @@ func (msg *LogLogic) MessageHandle() {
 	logmd.Total = msg.Total
 	logmd.Datas = msg.Datas
 	Manage.TopicManageEx.SendDB(logmd)
+	return
 }
