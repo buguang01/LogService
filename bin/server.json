@@ -15,5 +15,5 @@
     },
     "LogLv": 0,
     "LogPath": "logs",
-    "LogMode": 0
+    "LogMode": 1
 }
