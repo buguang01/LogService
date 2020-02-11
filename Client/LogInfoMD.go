@@ -54,7 +54,7 @@ func NewLoginfoByTime(topid1, topid2, topid3 string, mid, sid int, dt time.Time)
 
 type NsqSendLogEventMsg struct {
 	messages.NsqdMessage
-	LogInfoMD
+	Data LogInfoMD
 }
 
 func (msg *NsqSendLogEventMsg) GetAction() uint32 {
@@ -62,11 +62,11 @@ func (msg *NsqSendLogEventMsg) GetAction() uint32 {
 }
 
 //发到LogService的日志消息
-func NLog_Example(md *LogInfoMD, actid uint32, sid string, mid int) {
+func NLog_Example(md *LogInfoMD, sid string, mid int) {
 	msg := &NsqSendLogEventMsg{
-		LogInfoMD: *md,
+		Data: *md,
 	}
-	msg.ActionID = actid
+	msg.ActionID = 979001
 	msg.SendUserID = mid
 	msg.Topic = sid
 	Service.NsqdExample.AddMsg(msg)
